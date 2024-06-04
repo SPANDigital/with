@@ -1,6 +1,11 @@
 # with
 SPANDigital's implementation of the Functional Options Pattern using Go Generics
 
+The main difference you will see compared to examples on web:
+- it uses a generic type for options
+- `With...` functions and constructor returns an error
+- It will stop setting up options on the first error
+
 ### Usage
 
 Please see the [samples/](samples/) directory for examples of usage.
