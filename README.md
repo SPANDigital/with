@@ -17,7 +17,15 @@ The main difference you will see compared to examples on web:
 
 Please see the [samples/](samples/) directory for examples of usage.
 
-### Example in code
+### An example in code
+
+Using `WithHttpClient` high order function to connect a [go-vcr](https://github.com/dnaeon/go-vcr) recorder (`r`)to our CatFacts implementation
+
+```go
+catFacts, err := NewCatFacts(
+		WithHttpClient(r.GetDefaultClient()), 
+)
+```
 
 See you the "With.." functions are built below, and with.Build in your constructor.
 
