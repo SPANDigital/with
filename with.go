@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-type Func[O any] func(options *O) error
+type Func[O any] func(options *O) (err error)
 
 func Noop[O any]() Func[O] {
 	return func(options *O) error {
