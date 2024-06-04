@@ -7,7 +7,7 @@ Please see the [samples/](samples/) directory for examples of usage.
 
 ### TLDR 
 
-- use generic function type [/with.go#L7](with.Func\[O any\]) as the return type of your `With..` high order functions.
+- use generic function type [`with.Func\[O any\]`](/with.go\#L7) as the return type of your `With..` high order functions.
 - 
 
 
