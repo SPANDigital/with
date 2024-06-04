@@ -5,11 +5,12 @@ SPANDigital's implementation of the Functional Options Pattern using Go Generics
 
 Please see the [samples/](samples/) directory for examples of usage.
 
-### TLDR 
+- use generic function type [`with.Func[O any]`](/with.go\#L7) as the return type of your `With..` high order functions.
+- in your constructor use [`Build[O any](initialOptions *O, postFunc Func[O], withOptions ...Func[O]) (builtOptions *O, err error)`](/with.go#L25)
+  noting: `initialOptions` is the initial state of options structure, and any special post-processing can be done with `postFunc`.
+  Post-processing is disabled when `nil` is passed for `postFunc`
 
-- use generic function type [`with.Func\[O any\]`](/with.go\#L7) as the return type of your `With..` high order functions.
-- 
-
+### Samples
 
 See you the "With.." functions are built below, and with.Build in your constructor.
 
