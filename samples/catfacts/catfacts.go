@@ -1,3 +1,5 @@
+//go:build samples
+
 package catfacts
 
 import (
