@@ -84,7 +84,7 @@ func NewServer(withOptions ...with.Func[options]) (newServer *server, err error)
 server, err := NewServer(
 	WithHost("localhost"),
 	WithPort(10000),
-	WithTimeout(3 * time.Second)
+	WithTimeout(3 * time.Second),
 )
 ```
 
