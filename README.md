@@ -78,6 +78,15 @@ func NewServer(withOptions ...with.Func[options]) (newServer *server, err error)
 }
 ```
 
+4. Use:
+
+```go
+server, err := NewServer(
+	WithHost("localhost"),
+	WithPort(10000),
+	WithTimeout(3 * time.Second)
+)
+```
 
 ### Usage samples
 
