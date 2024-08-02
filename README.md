@@ -43,7 +43,7 @@ func WithHost(host string) with.Func[options] {
 }
 ```
 
-3. Using with.Build to retrieved your configured options, typically this is used in constructors
+3. Using `with.Build` to retrieved your configured options, typically this is used in constructors
 
    Defaults and validation are configured at this step. If you do not require validation use nil
    for the validation function.
