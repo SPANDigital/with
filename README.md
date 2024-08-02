@@ -4,7 +4,7 @@ SPAN Digital's take on the Functional Options Pattern using Generics
 ![build](https://github.com/spandigital/with/actions/workflows/go.yml/badge.svg)
 
 ### Features
-- Use any struct for options via generics
+- Use any type(not only structs) for options via generics
 - Supports default options
 - Supports validation on individual options as they're set
 - Supports validation of options as a unit after they're set
