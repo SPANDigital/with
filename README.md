@@ -1,7 +1,7 @@
 # with
 SPANDigital's take on the Functional Options Pattern using Generics
 
-![build](https://github.com/spandigtial/with/actions/workflows/go.yml/badge.svg)
+![build](https://github.com/spandigital/with/actions/workflows/go.yml/badge.svg)
 
 ### Features
 - Use any struct for options via generics
