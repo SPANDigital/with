@@ -47,8 +47,8 @@ type server struct {
 }
 
 func NewServer(withOptions ...with.Func[options]) (newServer *server, err error) {
-	var newOptions *options
-	if newOptions, err = with.Build(&options{ // defaults
+	var builtOptions *options
+	if builtOptions, err = with.Build(&options{ // defaults
 		host:    "",
 		port:    0,
 		timeout: 0,
@@ -64,9 +64,9 @@ func NewServer(withOptions ...with.Func[options]) (newServer *server, err error)
 		return
 	}, withOptions...); err == nil { //options is ready to be used
 		newServer = &server{
-			host:    newOptions.host,
-			port:    newOptions.port,
-			timeout: newOptions.timeout,
+			host:    builtOptions.host,
+			port:    builtOptions.port,
+			timeout: builtOptions.timeout,
 		}
 	}
 	return
