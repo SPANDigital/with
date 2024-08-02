@@ -1,20 +1,3 @@
-# with
-SPANDigital's take on the Functional Options Pattern using Generics
-
-### Features
-- Supports default options
-- Supports validation on individual options as they're set
-- Supports validation of options as 
-
-### Installation
-
-```bash
-go get github.com/spandigital/with
-```
-
-### Usage
-
-```go
 //go:build samples
 
 package server
@@ -92,6 +75,3 @@ func NewServer(withOptions ...with.Func[options]) (newServer *server, err error)
 func (s *server) Run() {
 	fmt.Printf("server listening on %s:%d\n", s.host, s.port)
 }
-```
-
-
