@@ -1,5 +1,5 @@
 # with
-SPANDigital's take on the Functional Options Pattern using Generics
+SPAN Digital's take on the Functional Options Pattern using Generics
 
 ![build](https://github.com/spandigital/with/actions/workflows/go.yml/badge.svg)
 
