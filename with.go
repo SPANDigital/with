@@ -6,7 +6,7 @@ import (
 
 type Func[O any] func(options *O) (err error)
 
-func Noop[O any]() Func[O] {
+func Nop[O any]() Func[O] {
 	return func(options *O) error {
 		return nil
 	}
@@ -22,13 +22,13 @@ func Compose[O any](options *O, withOptions ...Func[O]) (err error) {
 	return
 }
 
-func Build[O any](initialOptions *O, postFunc Func[O], withOptions ...Func[O]) (builtOptions *O, err error) {
+func Build[O any](initialOptions *O, validateFunc Func[O], withOptions ...Func[O]) (builtOptions *O, err error) {
 	builtOptions = initialOptions
 	if err = Compose(builtOptions, withOptions...); err != nil {
 		return
 	}
-	if postFunc != nil {
-		err = postFunc(builtOptions)
+	if validateFunc != nil {
+		err = validateFunc(builtOptions)
 	}
 	return
 }
@@ -39,5 +39,5 @@ func OnCondition[O any](condition bool, withOptions ...Func[O]) Func[O] {
 			return Compose(options, withOptions...)
 		}
 	}
-	return Noop[O]()
+	return Nop[O]()
 }
