@@ -1,6 +1,3 @@
-// SPDX-License-Identifier: MIT
-//go:build samples
-
 package server
 
 import (
@@ -12,48 +9,162 @@ import (
 
 func TestNewServer(t *testing.T) {
 	type args struct {
-		withOptions []with.Func[options]
+		withOptions []with.Func[Options]
 	}
 	tests := []struct {
-		name          string
-		args          args
-		wantNewServer *server
-		wantErr       bool
+		name       string
+		args       args
+		wantServer *server
+		wantErr    bool
 	}{
 		{
 			name: "success",
 			args: args{
-				withOptions: []with.Func[options]{
+				withOptions: []with.Func[Options]{
 					WithHost("localhost"),
-					WithPort(1000),
+					WithPort(8080),
 					WithTimeout(3 * time.Second),
 				},
 			},
-			wantNewServer: &server{
+			wantServer: &server{
 				host:    "localhost",
-				port:    1000,
+				port:    8080,
 				timeout: 3 * time.Second,
 			},
 			wantErr: false,
 		},
 		{
-			name: "error",
+			name: "incomplete details 1",
 			args: args{
-				withOptions: []with.Func[options]{},
+				withOptions: []with.Func[Options]{
+					WithHost("localhost"),
+				},
 			},
-			wantNewServer: nil,
-			wantErr:       true,
+			wantServer: nil,
+			wantErr:    true,
+		},
+		{
+			name: "incomplete details 2",
+			args: args{
+				withOptions: []with.Func[Options]{
+					WithHost("localhost"),
+					WithPort(8080),
+				},
+			},
+			wantServer: nil,
+			wantErr:    true,
+		},
+		{
+			name: "invalid Host",
+			args: args{
+				withOptions: []with.Func[Options]{
+					WithHost(""),
+				},
+			},
+			wantServer: nil,
+			wantErr:    true,
+		},
+		{
+			name: "invalid Port",
+			args: args{
+				withOptions: []with.Func[Options]{
+					WithPort(-1),
+				},
+			},
+			wantServer: nil,
+			wantErr:    true,
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotNewServer, err := NewServer(tt.args.withOptions...)
+			gotServer, err := NewServer(tt.args.withOptions...)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewServer() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(gotNewServer, tt.wantNewServer) {
-				t.Errorf("NewServer() gotNewServer = %v, want %v", gotNewServer, tt.wantNewServer)
+			if !reflect.DeepEqual(gotServer, tt.wantServer) {
+				t.Errorf("NewServer() gotServer = %v, want %v", gotServer, tt.wantServer)
+			}
+		})
+	}
+}
+
+func TestNewServerFromOptions(t *testing.T) {
+	type args struct {
+		options     *Options
+		withOptions []with.Func[Options]
+	}
+	tests := []struct {
+		name       string
+		args       args
+		wantServer *server
+		wantErr    bool
+	}{
+		{
+			name: "success",
+			args: args{
+				options: &Options{
+					Host:    "localhost",
+					Port:    8080,
+					Timeout: 3 * time.Second,
+				},
+			},
+			wantServer: &server{
+				host:    "localhost",
+				port:    8080,
+				timeout: 3 * time.Second,
+			},
+		},
+		{
+			name: "incomplete details 1",
+			args: args{
+				options: &Options{
+					Host: "localhost",
+					Port: 8080,
+				},
+			},
+			wantServer: nil,
+			wantErr:    true,
+		},
+		{
+			name: "incomplete details 2",
+			args: args{
+				options: &Options{
+					Host: "localhost",
+				},
+			},
+			wantServer: nil,
+			wantErr:    true,
+		},
+		{
+			name: "cobined success",
+			args: args{
+				options: &Options{
+					Host: "localhost",
+					Port: 8080,
+				},
+				withOptions: []with.Func[Options]{
+					WithTimeout(3 * time.Second),
+				},
+			},
+			wantServer: &server{
+				host:    "localhost",
+				port:    8080,
+				timeout: 3 * time.Second,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotServer, err := NewServerFromOptions(tt.args.options, tt.args.withOptions...)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("NewServerFromOptions() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotServer, tt.wantServer) {
+				t.Errorf("NewServerFromOptions() gotServer = %v, want %v", gotServer, tt.wantServer)
 			}
 		})
 	}
