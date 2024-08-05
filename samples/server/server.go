@@ -14,29 +14,49 @@ type Server interface {
 	Run()
 }
 
-type options struct {
-	host    string
-	port    int
-	timeout time.Duration
+type Options struct {
+	Host    string
+	Port    int
+	Timeout time.Duration
 }
 
-func WithHost(host string) with.Func[options] {
-	return func(options *options) (err error) {
-		options.host = host
+func (o *Options) Validate() (err error) {
+	switch {
+	case o.Host == "":
+		err = errors.New("Host is required")
+	case o.Port == 0:
+		err = errors.New("Port is required")
+	case !(o.Port > 0 && o.Port < 65535):
+		err = errors.New("Port must be between 1 and 65535")
+	case o.Timeout == 0:
+		err = errors.New("Timeout is required")
+	}
+	return
+}
+
+func WithHost(host string) with.Func[Options] {
+	return func(options *Options) (err error) {
+		options.Host = host
 		return
 	}
 }
 
-func WithPort(port int) with.Func[options] {
-	return func(options *options) (err error) {
-		options.port = port
+func WithPort(port int) with.Func[Options] {
+	return func(options *Options) (err error) {
+		switch {
+		case port == 0:
+			return errors.New("Port is required")
+		case !(port > 0 && port < 65535):
+			return errors.New("Port must be between 1 and 65535")
+		}
+		options.Port = port
 		return
 	}
 }
 
-func WithTimeout(timeout time.Duration) with.Func[options] {
-	return func(options *options) (err error) {
-		options.timeout = timeout
+func WithTimeout(timeout time.Duration) with.Func[Options] {
+	return func(options *Options) (err error) {
+		options.Timeout = timeout
 		return
 	}
 }
@@ -47,30 +67,27 @@ type server struct {
 	timeout time.Duration
 }
 
-func NewServer(withOptions ...with.Func[options]) (newServer *server, err error) {
-	var builtOptions *options
-	if builtOptions, err = with.Build(&options{ // defaults
-		host:    "",
-		port:    0,
-		timeout: 0,
-	}, func(options *options) (err error) { // validation
-		switch {
-		case options.host == "":
-			err = errors.New("host is required")
-		case options.port == 0:
-			err = errors.New("port is required")
-		case options.timeout == 0:
-			err = errors.New("timeout is required")
-		}
-		return
-	}, withOptions...); err == nil { //options is ready to be used
-		newServer = &server{
-			host:    builtOptions.host,
-			port:    builtOptions.port,
-			timeout: builtOptions.timeout,
-		}
+func NewServer(withOptions ...with.Func[Options]) (server *server, err error) {
+	o := &Options{}
+	if err = with.DefaultThenAddWith(o, withOptions); err == nil {
+		server = newServer(o)
 	}
 	return
+}
+
+func NewServerFromOptions(options *Options, withOptions ...with.Func[Options]) (server *server, err error) {
+	if err = with.AddWith(options, withOptions); err == nil {
+		server = newServer(options)
+	}
+	return
+}
+
+func newServer(options *Options) *server {
+	return &server{
+		host:    options.Host,
+		port:    options.Port,
+		timeout: options.Timeout,
+	}
 }
 
 func (s *server) Run() {
