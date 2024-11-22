@@ -1,7 +1,10 @@
 # with
 SPAN Digital's take on the Functional Options Pattern using Generics
 
-![build](https://github.com/spandigital/with/actions/workflows/go.yml/badge.svg)
+[![Open in Dev Containers](https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/SPANDigital/with)
+![Develop Go Action Workflow Status](https://img.shields.io/github/actions/workflow/status/spandigital/with/go.yml?branch=develop&label=develop)
+![Main Go Action Workflow Status](https://img.shields.io/github/actions/workflow/status/spandigital/with/go.yml?branch=main&label=main)
+![Release status](https://img.shields.io/github/v/tag/SPANDigital/with)
 
 ### Features
 - Supports default options (use ```SetDefaults()``` pointer receiver )
