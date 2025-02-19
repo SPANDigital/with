@@ -12,8 +12,15 @@ repos:
       - id: go-fmt
       - id: golangci-lint
       - id: go-unit-tests
-      - id: go-mod-tidy
-      # - id: validate-toml
+      - id: go-mod-tidy      
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.4
+    hooks:
+      - id: actionlint
+  - repo: https://gitlab.com/bmares/check-json5
+    rev: v1.0.0
+    hooks:
+    - id: check-json5
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: v8.0.0
     hooks:
