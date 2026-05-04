@@ -10,7 +10,7 @@
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/guiyomh/features/golangci-lint:0": {},
     "ghcr.io/guiyomh/features/goreleaser:0": {},
-    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/node:2": {},
     "ghcr.io/prulloac/devcontainer-features/pre-commit:1": {}
   },
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
